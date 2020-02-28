@@ -1,6 +1,6 @@
 import praw #Python Reddit API Wrapper (PRAW). More information on 'https://praw.readthedocs.io/en/v2.1.21/'
 import random
-
+from prawcore.exceptions import RequestException
 
 """
 To access the Reddit API you must have a client_id, a client_secret,
@@ -16,15 +16,23 @@ def get_image_url():
         client_secret="ErY8BPjdiLC2HcKKmCpnu5lNTBo",
         user_agent="Wallpaper_scraper by u/Chu-lian13"#This is an example of user_agent, you can put whatever you want
         )
+    
+        
+        
 
     actual_sub = random.choice(("wallpapers", "wallpaper"))
     post_number = random.randint(0, 998)
     count = 0
-
-    for i in r.subreddit(actual_sub).top("all", limit=999):
-        if count == post_number:
-            return i.url
-        count += 1
+    try:
+        for i in r.subreddit(actual_sub).top("all", limit=999):
+            if count == post_number:
+                if ".jpg" in i.url:
+                    return i.url
+                else:
+                    return get_image_url()
+            count += 1
+    except RequestException:
+        return False
 
 
 if __name__ == "__main__":
