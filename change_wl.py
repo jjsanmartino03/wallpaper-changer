@@ -42,7 +42,7 @@ def main():
                 break
             handle.write(pixel)
 
-    #put_wallpaper(filename)
+    put_wallpaper(filename)
 
 if __name__ == "__main__":
     main()

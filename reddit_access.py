@@ -12,8 +12,8 @@ field.
 
 def get_image_url():
     r = praw.Reddit(
-        client_id="your-client-id",
-        client_secret="your-client-secret",
+        client_id="1_ZnUfErKfTTdA",
+        client_secret="ErY8BPjdiLC2HcKKmCpnu5lNTBo",
         user_agent="Wallpaper_scraper by u/Chu-lian13"#This is an example of user_agent, you can put whatever you want
         )
 
