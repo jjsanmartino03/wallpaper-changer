@@ -8,7 +8,6 @@ import shutil
 import random
 
 def get_image_from_url(url, filename):
-    print(f"filename:{filename}")
     with open(filename, "wb") as handle:
         response = requests.get(url, stream=True)
         if not response.ok:
@@ -40,7 +39,6 @@ def is_no_wifi_directory_complete():
     no_wifi_dir = os.listdir(r"Wallpapers\No_wifi")
     dir_length = len(no_wifi_dir)
     if dir_length < 15:
-        print(no_wifi_dir)
         numbers = [int(image.split(".")[0]) for image in no_wifi_dir]
         for i in range(1, len(numbers)+2):
             if not i in numbers:
