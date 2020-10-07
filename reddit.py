@@ -28,7 +28,7 @@ def get_image_url():
     
         return image_url
 
-    except RequestException:
+    except:
         return False
 
 if __name__ == "__main__":
