@@ -142,6 +142,6 @@ class WallpaperChanger:
                     self.saver.save_from_url(image_url, path)        
 
 if __name__ == "__main__":
-    print(help(WallpaperChanger))
+    print(help(WallpaperChanger.complete_no_wifi))
     changer = WallpaperChanger()
     changer.execute()
