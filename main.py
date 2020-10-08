@@ -31,22 +31,35 @@ class WallpaperSaver:
         move_file(moved, destination)
 
 class WallpaperChanger:
+    """
+    The class that handles the entire program. This object has the 
+    purpose of changing the wallpaper of the pc.
+
+    params
+
+    filename        The name the wallpaper will have once downloaded
+    default_folder  The folder which the wallpaper will be saved in
+    saver           An instance of an object with a behavior that handles the saving and copying of the wallpaper 
+
+    """
     def __init__(self, filename=None, default_folder=os.path.abspath("wallpapers"), saver=WallpaperSaver()):
         if not filename:
-            filename = self.generate_filename()
+            filename = self.generate_filename() # generate a proper filename based on the date
 
-        self.folder = default_folder
-        self.path = os.path.join(self.folder, filename)
-        self.no_wifi_folder = os.path.join(default_folder, "no-wifi")
+        self.folder = default_folder # The wallpapers folder
+        self.path = os.path.join(self.folder, filename) # The final path to the image
+        self.no_wifi_folder = os.path.join(default_folder, "no-wifi") # The folder where wallpapers are saved to have images in case of not having a connection
 
         self.saver = saver
 
     def execute(self):
+        """
+        The main execution of the program. Doesn't need any params
+        """
         if not os.path.isdir(self.folder): # If the directory isn't there, create it
             os.mkdir(self.folder)
 
-        image_url = get_image_url()
-        image_url = False
+        image_url = get_image_url() # Get the image url from praw
 
         if image_url:
             self.saver.save_from_url(image_url, self.path)
@@ -57,6 +70,9 @@ class WallpaperChanger:
             self.use_wallpaper(self.path)
 
     def use_wallpaper(self, path):
+        """
+        Th
+        """
         if sys.platform.startswith("win"):
             SPI_SETDESKWALLPAPER = 20
 
@@ -71,17 +87,15 @@ class WallpaperChanger:
         
         destination = self.path
         no_wifi_wallpapers = os.listdir(self.no_wifi_folder)
+
         if no_wifi_wallpapers:
             image_path = os.path.join(self.no_wifi_folder,random_choice(no_wifi_wallpapers))
-            if image_path:
-                self.saver.move_from_location(image_path, destination)
+            self.saver.move_from_location(image_path, destination)
         else:
             used_wallpapers = os.listdir(self.folder)
-            image_path = os.path.join(self.folder,random_choice(used_wallpapers))
-            if image_path:
+            if used_wallpapers:
+                image_path = os.path.join(self.folder,random_choice(used_wallpapers))
                 self.saver.copy_from_location(image_path, destination)
-            
-
 
     def generate_filename(self):
         localtime = get_localtime()
@@ -105,10 +119,14 @@ class WallpaperChanger:
                 if not i in numbers:
                     image_url = get_image_url()
 
+                    if not image_url:
+                        return
+
                     path = os.path.join(self.no_wifi_folder,f"{i}.jpg")
 
                     self.saver.save_from_url(image_url, path)        
 
 if __name__ == "__main__":
+    print(help(WallpaperChanger))
     changer = WallpaperChanger()
     changer.execute()
