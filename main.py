@@ -9,7 +9,18 @@ from random import choice as random_choice
 from reddit import get_image_url
 
 class WallpaperSaver:
+    """
+    A class that handles the saving and copying of the wallpapers
+    It can save any image from a given url, and copy and move files
+    to certain destinations
+    """
     def save_from_url(self, url, path):
+        """
+        Download an image from a url and save it in a determined file
+
+        url     The url from which the image is requested
+        path    Where the image will be saved
+        """
         with open(path, "wb") as handle:
             response = requests.get(url, stream=True)
 
@@ -43,7 +54,7 @@ class WallpaperChanger:
     saver           An instance of an object with a behavior that 
                     handles the saving and copying of the wallpaper 
     """
-    def __init__(self, filename=None, default_folder=os.path.abspath("wallpapers"), saver=WallpaperSaver()):
+    def __init__(self, default_folder=os.path.abspath("wallpapers"), filename=None,  saver=WallpaperSaver()):
         if not filename:
             filename = self.generate_filename() # generate a proper filename based on the date
 
@@ -67,12 +78,11 @@ class WallpaperChanger:
 
         if image_url: # If the url request was successful, continue
             self.saver.save_from_url(image_url, self.path)
-
+            self.use_wallpaper(self.path)
             self.complete_no_wifi() # If not completed, complete the no-wifi directory
         else: # If it wasn't, use an already downloaded wallpaper
             self.offline_wallpaper() # Choose wallpaper
-            
-        self.use_wallpaper(self.path)
+            self.use_wallpaper(self.path)
 
     def use_wallpaper(self, path):
         """
@@ -142,6 +152,5 @@ class WallpaperChanger:
                     self.saver.save_from_url(image_url, path)        
 
 if __name__ == "__main__":
-    print(help(WallpaperChanger.complete_no_wifi))
-    changer = WallpaperChanger()
+    changer = WallpaperChanger(*sys.argv[1:])
     changer.execute()
