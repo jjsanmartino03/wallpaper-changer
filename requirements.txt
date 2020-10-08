@@ -1,0 +1,4 @@
+praw==7.1.0
+prawcore==1.5.0
+python-dotenv==0.14.0
+requests==2.22.0
