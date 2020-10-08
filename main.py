@@ -21,18 +21,21 @@ class WallpaperSaver:
         url     The url from which the image is requested
         path    Where the image will be saved
         """
-        with open(path, "wb") as handle:
-            response = requests.get(url, stream=True)
+        try:
+            with open(path, "wb") as handle:
+                response = requests.get(url, stream=True)
 
-            if not response.ok: # Something went wrong, abort
-                return
+                if not response.ok: # Something went wrong, abort
+                    return
 
-            for pixel in response.iter_content(8192): #iterate through the image
-                if not pixel: # End of the image, break loop
-                    break
-                handle.write(pixel)
+                for pixel in response.iter_content(8192): #iterate through the image
+                    if not pixel: # End of the image, break loop
+                        break
+                    handle.write(pixel)
 
             return True
+        except:
+            return False
 
     def copy_from_location(self, copied, destination):
         copy_file_to_destination(copied, destination)
@@ -77,12 +80,14 @@ class WallpaperChanger:
         image_url = get_image_url() # Get the image url from praw
 
         if image_url: # If the url request was successful, continue
-            self.saver.save_from_url(image_url, self.path)
-            self.use_wallpaper(self.path)
+            if self.saver.save_from_url(image_url, self.path):
+                self.use_wallpaper(self.path)
+
             self.complete_no_wifi() # If not completed, complete the no-wifi directory
         else: # If it wasn't, use an already downloaded wallpaper
-            self.offline_wallpaper() # Choose wallpaper
-            self.use_wallpaper(self.path)
+            image_path = self.offline_wallpaper() # Choose wallpaper
+            if image_path:
+                self.use_wallpaper(image_path)
 
     def use_wallpaper(self, path):
         """
@@ -105,16 +110,21 @@ class WallpaperChanger:
         folder, or if it doesn't have any files, from the wallpapers folder
         """
         no_wifi_wallpapers = os.listdir(self.no_wifi_folder)
+        used_wallpapers = os.listdir(self.folder)
 
         if no_wifi_wallpapers: # If there's any
             image_path = os.path.join(self.no_wifi_folder,random_choice(no_wifi_wallpapers))
 
             self.saver.move_from_location(image_path, self.path)
+        elif used_wallpapers:            
+            image_path = os.path.join(self.folder,random_choice(used_wallpapers))
+
+            self.saver.copy_from_location(image_path, self.path)
         else:
-            used_wallpapers = os.listdir(self.folder)
-            if used_wallpapers:
-                image_path = os.path.join(self.folder,random_choice(used_wallpapers))
-                self.saver.copy_from_location(image_path, self.path)
+            return False
+        
+        return self.path
+        
 
     def generate_filename(self):
         """
