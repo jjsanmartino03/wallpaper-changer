@@ -11,7 +11,11 @@ You can change the default properties by passing them from the command line.
 ## How to use
 1. Clone this repository or download the .zip file form github
 2. Install the required python modules with the command `pip install -r requirements.txt` in windows or `pip3 install -r requirements.txt` in linux
-3. Run `main.py` with python and it should work
+3. ## Register a Reddit app
+    Log into Reddit, head over to the Reddit app preferences page, and click ‘create an app’.
+  Give it whatever name you’d like and select the script type.Finally, Reddit apps require a redirect URI. You won’t be using it however, so just put in a dummy one, such as http://www.example.com/
+4. Add your Reddit app credentials to a .env file in the project directory, with two variables: CLIENT_ID and CLIENT_SECRET
+5. Run `main.py` with python and it should work
 
 ### Change Wallpaper on startup
 #### Ubuntu
