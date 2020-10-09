@@ -1,3 +1,4 @@
+import pathlib
 import requests
 import os
 import sys
@@ -57,7 +58,10 @@ class WallpaperChanger:
     saver           An instance of an object with a behavior that 
                     handles the saving and copying of the wallpaper 
     """
-    def __init__(self, default_folder=os.path.abspath("wallpapers"), filename=None,  saver=WallpaperSaver()):
+    def __init__(self,
+    default_folder=os.path.join(pathlib.Path(__file__).parent.absolute(), "wallpapers"),
+    filename=None,
+    saver=WallpaperSaver()):
         if not filename:
             filename = self.generate_filename() # generate a proper filename based on the date
 
