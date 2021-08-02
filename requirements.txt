@@ -2,3 +2,4 @@ praw==7.2.0
 prawcore==2.0.0
 python-dotenv==0.14.0
 requests==2.22.0
+beautifulsoup4==4.8.2

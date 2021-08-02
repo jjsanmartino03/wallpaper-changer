@@ -29,3 +29,6 @@ You can change the default properties by passing them from the command line.
 3. Once the shortcut is created, right-click the shortcut file and select Cut.
 4. Press Start, type Run, and press Enter.
 5. In the Run window, type shell:startup to open the Startup folder. Once the Startup folder is opened, click the Home tab at the top of the folder. Then, select Paste to paste the shortcut file into the Startup folder.
+
+## Quotes wallpapers
+- I've added a script that downloads powerful quotes wallpapers from [Quotefancy](https://quotefancy.com/) and sets it as a wallpaper. You just have to run it.

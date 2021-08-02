@@ -4,5 +4,5 @@
 # the absolute path to your python interpreter if using a virtual environment,
 # or simply "python3" if you don't
 # for example: /home/user/wall-changer-venv/bin/python3 ~/Desktop/wallpaper-changer/main.py
-python3 the-path-to-the-folder-where-you-have-the-project/main.py
+/home/julian/projects/wallpaper-changer/wall-changer-venv/bin/python3 /home/julian/projects/wallpaper-changer/main.py
 # Notice that the path must not have a space in the middle, or will be treated as different strings
