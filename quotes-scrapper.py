@@ -1,5 +1,6 @@
 import shutil
 import os
+import pathlib
 import sys
 import ctypes
 from random import choice as random_choice
@@ -18,7 +19,7 @@ sections = [
 ]
 
 
-wallpapers_dir = "quotefancy-wallpapers"
+wallpapers_dir = os.path.join(pathlib.Path(__file__).parent.absolute(),"quotefancy-wallpapers")
 if not os.path.exists(wallpapers_dir):
     os.mkdir(wallpapers_dir)
 
@@ -33,7 +34,7 @@ if not os.path.exists(directory):
 response = requests.get(selected_section)
 
 if response.status_code == 200:
-    soup = BeautifulSoup(response.text, features="lxml" )
+    soup = BeautifulSoup(response.text, "html.parser")
     hyperlinks = soup.find_all("a")
 
     img_links = []
@@ -65,5 +66,6 @@ if response.status_code == 200:
             SPI_SETDESKWALLPAPER, 0, path, 0)
 
     elif sys.platform.startswith("linux"):  # If running on linux
+        
         os.system("/usr/bin/gsettings set org.gnome.desktop.background picture-uri " +
                   path.replace(' ', '\\ '))

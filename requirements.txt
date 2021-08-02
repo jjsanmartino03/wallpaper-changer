@@ -1,5 +1,13 @@
+beautifulsoup4==4.9.3
+certifi==2020.12.5
+chardet==3.0.4
+idna==2.8
 praw==7.2.0
 prawcore==2.0.0
 python-dotenv==0.14.0
 requests==2.22.0
-beautifulsoup4==4.8.2
+six==1.15.0
+soupsieve==2.2.1
+update-checker==0.18.0
+urllib3==1.25.11
+websocket-client==0.58.0
