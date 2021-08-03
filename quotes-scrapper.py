@@ -42,11 +42,15 @@ if response.status_code == 200:
         img = link.find("img")
         if img and img.get("data-original"):
             img_links.append(img['data-original'])
+            pattern = re.compile(r'(\d+x\d+)')
 
     if img_links:
+        
         selected_image_link = random_choice(img_links)
-
         pattern = re.compile(r'(\d+x\d+)')
+
+        while not (re.search(pattern, selected_image_link)):
+            selected_image_link = random_choice(img_links)
 
         selected_image_link = re.sub(pattern, '3840x2160', selected_image_link)
         print(selected_image_link)
